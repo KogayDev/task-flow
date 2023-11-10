@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.4'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
+    id("io.freefair.lombok") version "8.3"
+}
+
+apply from: 'version.gradle'
+
+group = 'com.kogay'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    querydsl.extendsFrom implementation, compileOnly, runtimeOnly
+
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Runtime Dependencies
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${versions.jjwt}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${versions.jjwt}"
+    runtimeOnly 'org.liquibase:liquibase-core'
+
+    // Annotation Processor
+    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+
+    // Implementation Dependencies
+    implementation "io.jsonwebtoken:jjwt-api:${versions.jjwt}"
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "com.querydsl:querydsl-core:${versions.queryDsl}"
+    implementation "com.querydsl:querydsl-jpa:${versions.queryDsl}:jakarta"
+    implementation "com.querydsl:querydsl-apt:${versions.queryDsl}:jakarta"
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}"
+    implementation 'org.springframework.data:spring-data-envers'
+
+    // Test Dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "org.testcontainers:postgresql"
+}
+
+
+querydsl {
+    jpa = true
+    library = "com.querydsl:querydsl-apt:${versions.queryDsl}:jakarta"
+    querydslSourcesDir = "${buildDir}/generated/sources/annotationProcessor/java/main"
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+initQuerydslSourcesDir.dependsOn clean
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

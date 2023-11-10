@@ -1,0 +1,36 @@
+jwt:
+  secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
+  lifetime: 1h
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task_flow_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    open-in-view: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  liquibase:
+    enabled: true
+logging:
+  level:
+    com.kogay.taskflow.logging: debug
+    org.springframework.transaction.interceptor: info
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: method
+
+server:
+  port: 8080

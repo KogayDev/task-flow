@@ -4,8 +4,6 @@ import com.kogay.taskflow.dto.UserEditDto;
 import com.kogay.taskflow.dto.UserFilter;
 import com.kogay.taskflow.dto.UserReadDto;
 import com.kogay.taskflow.entity.User;
-import com.kogay.taskflow.mapper.UserEditMapper;
-import com.kogay.taskflow.mapper.UserReadMapper;
 import com.kogay.taskflow.repository.UserRepository;
 import com.kogay.taskflow.service.UserService;
 import com.querydsl.core.types.Predicate;
@@ -13,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
@@ -36,10 +35,7 @@ class UserServiceTest {
     private final UserRepository userRepository;
 
     @SpyBean
-    private final UserReadMapper userReadMapper;
-
-    @SpyBean
-    private final UserEditMapper userEditMapper;
+    private final ModelMapper modelMapper;
 
     @InjectMocks
     private UserService userService;

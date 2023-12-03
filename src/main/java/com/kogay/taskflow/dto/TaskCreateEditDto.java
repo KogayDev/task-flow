@@ -1,13 +1,14 @@
 package com.kogay.taskflow.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Value
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TaskCreateEditDto {
     @NotBlank
     String name;

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,7 +57,7 @@ class AuthServiceTest {
     private final JwtProvider jwtProvider;
 
     @SpyBean
-    private final RegisterMapper registerMapper;
+    private final ModelMapper modelMapper;
 
     @InjectMocks
     private AuthService authService;

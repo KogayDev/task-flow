@@ -1,10 +1,15 @@
 package com.kogay.taskflow.dto;
 
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AssigneeReadDto {
     UserReadDto user;
     LocalDateTime assignmentDate;

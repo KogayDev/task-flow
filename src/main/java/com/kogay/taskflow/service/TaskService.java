@@ -10,12 +10,11 @@ import com.kogay.taskflow.exception.TaskAlreadyExistsException;
 import com.kogay.taskflow.exception.TaskNotFoundException;
 import com.kogay.taskflow.exception.UserAlreadyAssignedException;
 import com.kogay.taskflow.exception.UserNotFoundException;
-import com.kogay.taskflow.mapper.TaskCreateEditMapper;
-import com.kogay.taskflow.mapper.TaskReadMapper;
 import com.kogay.taskflow.repository.TaskRepository;
 import com.kogay.taskflow.repository.UserRepository;
 import com.kogay.taskflow.util.QPredicates;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,17 +34,16 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
-    private final TaskCreateEditMapper taskCreateEditMapper;
-    private final TaskReadMapper taskReadMapper;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public TaskReadDto create(TaskCreateEditDto taskCreateEditDto) {
         try {
             return Optional.of(taskCreateEditDto)
-                    .map(taskCreateEditMapper::toEntity)
+                    .map(dto -> modelMapper.map(dto, Task.class))
                     .map(this::setTaskOwner)
                     .map(taskRepository::save)
-                    .map(taskReadMapper::toDto)
+                    .map(task -> modelMapper.map(task, TaskReadDto.class))
                     .orElseThrow();
         } catch (DataIntegrityViolationException ex) {
             throw new TaskAlreadyExistsException(taskCreateEditDto.getName());
@@ -61,7 +59,7 @@ public class TaskService {
 
     public Optional<TaskReadDto> findById(Integer id) {
         return taskRepository.findById(id)
-                .map(taskReadMapper::toDto);
+                .map(task -> modelMapper.map(task, TaskReadDto.class));
     }
 
     public Page<TaskReadDto> findAll(TaskFilter taskFilter,
@@ -72,7 +70,7 @@ public class TaskService {
                 .add(taskFilter.ownerId(), task.owner.id::eq);
 
         return taskRepository.findAll(predicates.buildAnd(), pageable)
-                .map(taskReadMapper::toDto);
+                .map(task -> modelMapper.map(task, TaskReadDto.class));
     }
 
     @Transactional
@@ -80,9 +78,12 @@ public class TaskService {
     public Optional<TaskReadDto> update(Integer id, TaskCreateEditDto taskCreateEditDto) {
         try {
             return taskRepository.findById(id)
-                    .map(task -> taskCreateEditMapper.updateEntityFromDto(taskCreateEditDto, task))
+                    .map(task -> {
+                        modelMapper.map(taskCreateEditDto, task);
+                        return task;
+                    })
                     .map(taskRepository::saveAndFlush)
-                    .map(taskReadMapper::toDto);
+                    .map(task -> modelMapper.map(task, TaskReadDto.class));
         } catch (DataIntegrityViolationException ex) {
             throw new TaskAlreadyExistsException(taskCreateEditDto.getName());
         }
@@ -109,7 +110,7 @@ public class TaskService {
                     return task;
                 })
                 .map(taskRepository::saveAndFlush)
-                .map(taskReadMapper::toDto)
+                .map(task -> modelMapper.map(task, TaskReadDto.class))
                 .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
@@ -125,7 +126,7 @@ public class TaskService {
 
             task.addAssignee(assignee);
 
-            return taskReadMapper.toDto(taskRepository.save(task));
+            return modelMapper.map(taskRepository.save(task), TaskReadDto.class);
         } catch (DataIntegrityViolationException ex) {
             throw new UserAlreadyAssignedException();
         }

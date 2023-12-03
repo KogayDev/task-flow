@@ -4,9 +4,9 @@ import com.kogay.taskflow.dto.LoginDto;
 import com.kogay.taskflow.dto.RegisterDto;
 import com.kogay.taskflow.entity.User;
 import com.kogay.taskflow.exception.UserAlreadyExistsException;
-import com.kogay.taskflow.mapper.RegisterMapper;
 import com.kogay.taskflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,7 +25,7 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
-    private final RegisterMapper registerMapper;
+    private final ModelMapper modelMapper;
     private final RoleService roleService;
     private final UserRepository userRepository;
 
@@ -46,7 +46,7 @@ public class AuthService {
             throw new UserAlreadyExistsException(registerDto.getUsername());
         }
 
-        User user = registerMapper.toEntity(registerDto);
+        User user = modelMapper.map(registerDto, User.class);
         user.setRole(roleService.getDefaultRole());
 
         userRepository.save(user);

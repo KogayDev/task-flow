@@ -2,9 +2,14 @@ package com.kogay.taskflow.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JwtResponse {
     String token;
 

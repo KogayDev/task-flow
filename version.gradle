@@ -2,7 +2,7 @@ ext {
     versions = [
             'queryDsl': '5.0.0',
             'jjwt': '0.11.5',
-            'mapstruct': '1.5.5.Final',
+            'modelMapper': '3.2.0',
             'springdoc': '2.2.0'
     ]
 }

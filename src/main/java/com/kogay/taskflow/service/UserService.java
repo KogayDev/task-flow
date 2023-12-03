@@ -4,12 +4,11 @@ import com.kogay.taskflow.dto.CustomUserDetails;
 import com.kogay.taskflow.dto.UserEditDto;
 import com.kogay.taskflow.dto.UserFilter;
 import com.kogay.taskflow.dto.UserReadDto;
-import com.kogay.taskflow.mapper.UserEditMapper;
-import com.kogay.taskflow.mapper.UserReadMapper;
 import com.kogay.taskflow.repository.UserRepository;
 import com.kogay.taskflow.util.QPredicates;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,12 +29,11 @@ import static com.kogay.taskflow.entity.QUser.user;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final UserReadMapper userReadMapper;
-    private final UserEditMapper userEditMapper;
+    private final ModelMapper modelMapper;
 
     public Optional<UserReadDto> findById(Integer id) {
         return userRepository.findById(id)
-                .map(userReadMapper::toDto);
+                .map(user -> modelMapper.map(user, UserReadDto.class));
     }
 
     public Page<UserReadDto> findAll(UserFilter userFilter,
@@ -47,7 +45,7 @@ public class UserService implements UserDetailsService {
                 .buildAnd();
 
         return userRepository.findAll(predicate, pageable)
-                .map(userReadMapper::toDto);
+                .map(user -> modelMapper.map(user, UserReadDto.class));
     }
 
     @Transactional
@@ -55,11 +53,11 @@ public class UserService implements UserDetailsService {
     public Optional<UserReadDto> update(Integer id, UserEditDto userEditDto) {
         return userRepository.findById(id)
                 .map(user -> {
-                    userEditMapper.updateEntityFromDto(userEditDto, user);
+                    modelMapper.map(userEditDto, user);
                     return user;
                 })
                 .map(userRepository::saveAndFlush)
-                .map(userReadMapper::toDto);
+                .map(user -> modelMapper.map(user, UserReadDto.class));
     }
 
     @Transactional

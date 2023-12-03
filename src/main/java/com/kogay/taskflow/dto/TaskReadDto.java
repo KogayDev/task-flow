@@ -1,15 +1,16 @@
 package com.kogay.taskflow.dto;
 
 import com.kogay.taskflow.entity.Status;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-@Value
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TaskReadDto {
     Integer id;
     String name;

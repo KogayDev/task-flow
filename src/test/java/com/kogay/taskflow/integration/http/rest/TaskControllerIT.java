@@ -338,6 +338,7 @@ class TaskControllerIT extends IntegrationTestBase {
                 // Then
                 .andExpect(status().isNoContent());
     }
+
     @Test
     @WithMockUser
     void removeAssigneeFromTaskReturnForbiddenForNonOwnerOrNonAdmin() throws Exception {

@@ -1,14 +1,15 @@
 package com.kogay.taskflow.dto;
 
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
-@Value
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserReadDto {
     Integer id;
     String username;

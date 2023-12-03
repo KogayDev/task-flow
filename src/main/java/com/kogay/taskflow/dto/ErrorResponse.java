@@ -1,8 +1,13 @@
 package com.kogay.taskflow.dto;
 
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Value(staticConstructor = "of")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ErrorResponse {
     int status;
     String message;

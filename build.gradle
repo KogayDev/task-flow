@@ -37,12 +37,9 @@ dependencies {
     runtimeOnly "io.jsonwebtoken:jjwt-jackson:${versions.jjwt}"
     runtimeOnly 'org.liquibase:liquibase-core'
 
-    // Annotation Processor
-    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
-
     // Implementation Dependencies
     implementation "io.jsonwebtoken:jjwt-api:${versions.jjwt}"
-    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    implementation "org.modelmapper:modelmapper:${versions.modelMapper}"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'

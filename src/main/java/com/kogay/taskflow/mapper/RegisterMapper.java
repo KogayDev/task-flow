@@ -1,17 +1,35 @@
 package com.kogay.taskflow.mapper;
 
-import com.kogay.taskflow.annotation.EncodedMapping;
 import com.kogay.taskflow.dto.RegisterDto;
 import com.kogay.taskflow.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = PasswordEncoderMapper.class)
-public interface RegisterMapper {
+import java.util.Optional;
 
-    @Mapping(source = "password", target = "password", qualifiedBy = EncodedMapping.class)
-    User toEntity(RegisterDto register);
+@Component
+@RequiredArgsConstructor
+public class RegisterMapper {
+
+    private final ModelMapper modelMapper;
+
+    private final PasswordEncoder passwordEncoder;
+
+    @PostConstruct
+    private void init() {
+        modelMapper.createTypeMap(RegisterDto.class, User.class)
+                .addMappings(m -> m.using(getEncryptedPassword()).map(RegisterDto::getPassword, User::setPassword));
+    }
+
+    private Converter<String, String> getEncryptedPassword() {
+        return ctx -> Optional.ofNullable(ctx)
+                .map(MappingContext::getSource)
+                .map(passwordEncoder::encode)
+                .orElse(null);
+    }
 }

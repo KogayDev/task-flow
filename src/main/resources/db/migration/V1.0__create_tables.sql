@@ -1,6 +1,3 @@
---liquibase formatted sql
-
---changeset kogay:1
 CREATE TABLE IF NOT EXISTS users
 (
     id         SERIAL PRIMARY KEY,
@@ -12,7 +9,6 @@ CREATE TABLE IF NOT EXISTS users
     username   VARCHAR(255) UNIQUE
 );
 
---changeset kogay:2
 CREATE TABLE IF NOT EXISTS task
 (
     id          SERIAL PRIMARY KEY,
@@ -22,7 +18,6 @@ CREATE TABLE IF NOT EXISTS task
     owner_id    INTEGER      NOT NULL REFERENCES users (id) ON DELETE CASCADE
 );
 
---changeset kogay:3
 CREATE TABLE IF NOT EXISTS users_task
 (
     id              SERIAL PRIMARY KEY,

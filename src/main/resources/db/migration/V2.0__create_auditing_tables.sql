@@ -1,6 +1,3 @@
---liquibase formatted sql
-
---changeset kogay:1
 create table revision
 (
     id        serial not null,
@@ -9,7 +6,6 @@ create table revision
     primary key (id)
 );
 
---changeset kogay:2
 create table task_aud
 (
     id          integer not null,
@@ -22,7 +18,6 @@ create table task_aud
     primary key (rev, id)
 );
 
---changeset kogay:3
 create table users_aud
 (
     id         integer not null,
@@ -37,7 +32,6 @@ create table users_aud
     primary key (rev, id)
 );
 
---changeset kogay:4
 create table users_task_aud
 (
     id              integer not null,

@@ -2,12 +2,16 @@ package com.kogay.taskflow.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-@Value
+@Data
+@NoArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PageResponse<T> {
     List<T> content;
     Metadata metadata;

@@ -48,7 +48,7 @@ class TaskServiceTest {
 
     private static final Integer TASK_ID = 1;
     private static final String TASK_NAME = "test task";
-    public static final Integer USER_ID = 1;
+    private static final Integer USER_ID = 1;
 
     @Mock
     private final TaskRepository taskRepository;

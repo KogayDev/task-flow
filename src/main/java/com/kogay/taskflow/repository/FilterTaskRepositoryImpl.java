@@ -60,7 +60,7 @@ public class FilterTaskRepositoryImpl implements FilterTaskRepository {
 
     private OrderSpecifier[] getOrderSpecifiers(Pageable pageable) {
         PathBuilder<QTask> entityPath = new PathBuilder<>(QTask.class, "task");
-        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
 
         for (Sort.Order order : pageable.getSort()) {
             var orderExpression = entityPath.get(order.getProperty());

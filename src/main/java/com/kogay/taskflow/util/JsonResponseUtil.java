@@ -23,7 +23,7 @@ public class JsonResponseUtil {
      * @param errorResponse JSON response containing an error.
      */
     @SneakyThrows
-    public static void send(HttpServletResponse response, final ErrorResponse errorResponse) {
+    public static void send(HttpServletResponse response, ErrorResponse errorResponse) {
         response.setStatus(errorResponse.getStatus());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 

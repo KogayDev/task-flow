@@ -13,7 +13,10 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
+
+compileJava.options.encoding = 'UTF-8'
 
 configurations {
     querydsl.extendsFrom implementation, compileOnly, runtimeOnly

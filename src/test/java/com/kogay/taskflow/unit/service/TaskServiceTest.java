@@ -11,8 +11,6 @@ import com.kogay.taskflow.exception.TaskAlreadyExistsException;
 import com.kogay.taskflow.exception.TaskNotFoundException;
 import com.kogay.taskflow.exception.UserAlreadyAssignedException;
 import com.kogay.taskflow.exception.UserNotFoundException;
-import com.kogay.taskflow.mapper.TaskCreateEditMapper;
-import com.kogay.taskflow.mapper.TaskReadMapper;
 import com.kogay.taskflow.repository.TaskRepository;
 import com.kogay.taskflow.repository.UserRepository;
 import com.kogay.taskflow.service.TaskService;
@@ -24,6 +22,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -57,10 +56,7 @@ class TaskServiceTest {
     private final UserRepository userRepository;
 
     @SpyBean
-    private final TaskCreateEditMapper taskCreateEditMapper;
-
-    @SpyBean
-    private final TaskReadMapper taskReadMapper;
+    private final ModelMapper modelMapper;
 
     @InjectMocks
     private TaskService taskService;

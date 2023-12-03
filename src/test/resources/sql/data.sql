@@ -18,7 +18,7 @@ SELECT SETVAL('users_id_seq', (SELECT max(id) FROM users));
 -- Data generation for the "task" table
 INSERT INTO task(id, name, description, status, owner_id)
 VALUES
-    (1, 'Become a Java Developer', 'Develop a web application for the client', 'NEW', 1),
+    (1, 'Test Task', 'Develop a web application for the client', 'NEW', 1),
     (2, 'Create a Business Plan', 'Compose a business plan for a new project', 'IN_PROGRESS', 2),
     (3, 'Product Testing', 'Conduct testing of the latest product version', 'COMPLETED', 3),
     (4, 'Prototype Assembly', 'Assemble a device prototype for the client', 'NEW', 4),

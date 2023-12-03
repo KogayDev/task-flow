@@ -13,12 +13,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
@@ -37,6 +39,7 @@ public class AuthService {
         return jwtProvider.generate((UserDetails) authenticate.getPrincipal());
     }
 
+    @Transactional
     public String register(RegisterDto registerDto) {
         Optional<User> alreadyExistsUser = userRepository.findByUsername(registerDto.getUsername());
         if (alreadyExistsUser.isPresent()) {

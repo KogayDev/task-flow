@@ -55,9 +55,9 @@ class UserControllerIT extends IntegrationTestBase {
     @ParameterizedTest
     @CsvSource(value = {
             "null, null, null, 10",
-            "Иван, null, null, 2",
-            "null, Смирнов, null, 2",
-            "Елена, Ковалева, 1986-08-08, 1"
+            "Ivan, null, null, 2",
+            "null, Smirnov, null, 2",
+            "Elena, Kovaleva, 1986-08-08, 1"
     }, nullValues = "null")
     void findAllSuccessfully(String firstName,
                              String lastName,

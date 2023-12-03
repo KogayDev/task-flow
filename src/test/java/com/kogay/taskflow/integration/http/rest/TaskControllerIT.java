@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RequiredArgsConstructor
 class TaskControllerIT extends IntegrationTestBase {
 
-    private static final String TASK_NAME = "Стать Java разработчиком";
+    private static final String TASK_NAME = "Test Task";
     private static final int TASK_ID = 1;
 
     private final MockMvc mockMvc;

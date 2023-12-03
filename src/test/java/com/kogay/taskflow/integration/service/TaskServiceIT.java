@@ -24,15 +24,16 @@ class TaskServiceIT extends IntegrationTestBase {
 
     private static final Integer TASK_ID = 1;
     private static final Integer USER_ID = 2;
-    private static final String TASK_NAME = "Стать Java разработчиком";
+    private static final String TASK_NAME = "Test Task";
+    private static final String TASK_DESCRIPTION = "Description";
 
     private final TaskService taskService;
 
     @Test
     void create() {
         // Given
-        String taskName = "Задача 1";
-        TaskCreateEditDto taskCreateEditDto = new TaskCreateEditDto(taskName, "Описание 1", Status.NEW.name());
+        String taskName = "Task 1";
+        TaskCreateEditDto taskCreateEditDto = new TaskCreateEditDto(taskName, TASK_DESCRIPTION, Status.NEW.name());
 
         // When
         TaskReadDto taskReadDto = taskService.create(taskCreateEditDto);
@@ -86,8 +87,8 @@ class TaskServiceIT extends IntegrationTestBase {
     @Test
     void update() {
         // Given
-        String newName = "Задача 1";
-        TaskCreateEditDto taskEditDto = new TaskCreateEditDto(newName, "Описание 1", Status.NEW.name());
+        String newName = "Task777";
+        TaskCreateEditDto taskEditDto = new TaskCreateEditDto(newName, TASK_DESCRIPTION, Status.NEW.name());
 
         // When
         Optional<TaskReadDto> updatedTask = taskService.update(TASK_ID, taskEditDto);
